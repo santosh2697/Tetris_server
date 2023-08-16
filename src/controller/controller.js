@@ -73,7 +73,21 @@ const updateUserController = async (req, res) => {
   }
 };
 
+//Show all user details when server receives a GET request
+const showAllUsersController = async (req, res) => {
+  try {
+    //Sorting all documents based on descending order
+    const sortedDocuments = await Model.find({}).sort({ highScore: -1 });
+    return res.status(201).send({ msg: "Sorted data", Data: sortedDocuments });
+  } catch (error) {
+    console.log(error);
+    //500 internal server error is, as the name implies, a general problem with the website's server
+    return res.status(500).send({ msg: error });
+  }
+};
+
 module.exports = {
   createUser: createUserController,
   updateUser: updateUserController,
+  showAllUsers: showAllUsersController,
 };
