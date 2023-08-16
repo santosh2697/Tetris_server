@@ -7,6 +7,7 @@ const Router = require("./router/router");
 
 dotenv.config();
 
+console.log(process.env.DATABASE_CONNECTION_URL,"URL");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
