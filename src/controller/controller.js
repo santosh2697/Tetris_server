@@ -51,18 +51,18 @@ const updateUserController = async (req, res) => {
     const findUser = await Model.findOne({ name: name });
     if (findUser?.name) {
       //In case of valid input send the 201 status code (server has successfully processed the request)
-      const modelResponce = await Model.findOneAndUpdate(
-        { name: name },
-        { highScore: highScore }
-      ); //filter, to be updated value
+      if (highScore > findUser?.highScore) {
+        const modelResponce = await Model.findOneAndUpdate(
+          { name: name },
+          { highScore: highScore }
+        ); //filter, to be updated value
+      }
 
       //Sorting all documents based on descending order
       const sortedDocuments = await Model.find({}).sort({ highScore: -1 });
-      if (modelResponce) {
-        return res
-          .status(201)
-          .send({ msg: "Data updated", Data: sortedDocuments });
-      }
+      return res
+        .status(201)
+        .send({ msg: "Data updated", Data: sortedDocuments });
     } else {
       return res.status(400).send({ msg: "User does not exist in database" });
     }
